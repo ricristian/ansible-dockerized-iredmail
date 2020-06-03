@@ -1,5 +1,6 @@
 Create vars.yml file on ansible-roles/iRedMail
 Generate random base64 string `openssl rand -base64 32` which will be used by MLMMJADMIN_API_TOKEN bellow
+
 Generate random base64 string `openssl rand -base64 24` which will be used by ROUNDCUBE_DES_KEY bellow
 
 ```

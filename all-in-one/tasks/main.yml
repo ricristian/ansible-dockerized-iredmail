@@ -1,12 +1,12 @@
 ---
 - name: Create iredmail directory
   file:
-    path: "{{ VOLUMES_PATH }}"
+    path: "{{ IREDMAIL_DATA_DIR }}"
     state: directory
 - name: Untemplatet iredmail-docker.conf
   template:
     src: iredmail-docker.conf.j2
-    dest: "{{ VOLUMES_PATH }}/iredmail-docker.conf"
+    dest: "{{ IREDMAIL_DATA_DIR }}/iredmail-docker.conf"
 - name: Stop container if exists
   docker_container:
     name: iredmail
@@ -23,7 +23,7 @@
     name: iredmail
     image: iredmail/mariadb:nightly
     restart_policy: always
-    env_file: "{{ VOLUMES_PATH }}/iredmail-docker.conf"
+    env_file: "{{ IREDMAIL_DATA_DIR }}/iredmail-docker.conf"
     hostname: "{{ HOSTNAME }}"
     ports:
       - 880:80
@@ -32,18 +32,18 @@
       - 995:995
       - 143:143
       - 993:993
-      - 25:25
+      - "25:25"
       - 465:465
       - 587:587
     volumes:
-      - /iredmail/data/backup:/var/vmail/backup
-      - /iredmail/data/mailboxes:/var/vmail/vmail1
-      - /iredmail/data/mlmmj:/var/vmail/mlmmj
-      - /iredmail/data/mlmmj-archive:/var/vmail/mlmmj-archive
-      - /iredmail/data/imapsieve_copy:/var/vmail/imapsieve_copy
-      - /iredmail/data/custom:/opt/iredmail/custom
-      - /iredmail/data/ssl:/opt/iredmail/ssl
-      - /iredmail/data/mysql:/var/lib/mysql
-      - /iredmail/data/clamav:/var/lib/clamav
-      - /iredmail/data/sa_rules:/var/lib/spamassassin
-      - /iredmail/data/postfix_queue:/var/spool/postfix
+      - "{{ IREDMAIL_DATA_DIR }}/backup:/var/vmail/backup"
+      - "{{ IREDMAIL_DATA_DIR }}/mailboxes:/var/vmail/vmail1"
+      - "{{ IREDMAIL_DATA_DIR }}/mlmmj:/var/vmail/mlmmj"
+      - "{{ IREDMAIL_DATA_DIR }}/mlmmj-archive:/var/vmail/mlmmj-archive"
+      - "{{ IREDMAIL_DATA_DIR }}/imapsieve_copy:/var/vmail/imapsieve_copy"
+      - "{{ IREDMAIL_DATA_DIR }}/custom:/opt/iredmail/custom"
+      - "{{ IREDMAIL_DATA_DIR }}/ssl:/opt/iredmail/ssl"
+      - "{{ IREDMAIL_DATA_DIR }}/mysql:/var/lib/mysql"
+      - "{{ IREDMAIL_DATA_DIR }}/clamav:/var/lib/clamav"
+      - "{{ IREDMAIL_DATA_DIR }}/sa_rules:/var/lib/spamassassin"
+      - "{{ IREDMAIL_DATA_DIR }}/postfix_queue:/var/spool/postfix"
